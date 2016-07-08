@@ -1,0 +1,62 @@
+#zakaz user agentu z hackerskych nastroju v rukou amateru
+if ($http_user_agent ~* "^WPScan"){ return 403; }
+if ($http_user_agent ~* "sqlmap"){ return 403; }
+if ($http_user_agent ~* "dirbuster"){ return 403; }
+if ($http_user_agent ~* "nikto"){ return 403; }
+
+
+#zakaz dolovani uzivatelskych jmen
+if ($args ~* "author="){ return 404; }
+
+#skryti souboru prozrazujicich informace a zakaz xmlrpc - pozor je potreba pro nektere pluginy
+location ~ license\.txt|wp-config-sample\.php|.*readme\.html|.*readme\.txt|.*rss-functions\.php|\.htaccess|wp-config\.php|xmlrpc\.php {
+    return 404;
+}
+
+#zakaz spousteni PHP ze slozky s uploady
+location ~* wp-content/uploads/.*\.php$ {
+    deny all;
+}
+
+#povoleni pouze zakladnich HTTP metod
+if ($request_method !~ ^(GET|HEAD|POST)$ )
+{
+    return 403;
+}
+
+#blokace podezrelych dotazu
+set $susquery 0;
+if ($args ~* "\.\./") { set $susquery 1; }
+if ($args ~* "\.(bash|git|hg|log|svn|swp|cvs)") { set $susquery 1; }
+if ($args ~* "wp-config.php") { set $susquery 1; }
+if ($args ~* "etc/passwd") { set $susquery 1; }
+if ($args ~* "boot.ini") { set $susquery 1; }
+if ($args ~* "ftp:") { set $susquery 1; }
+if ($args ~* "http:") { set $susquery 1; }
+if ($args ~* "https:") { set $susquery 1; }
+if ($args ~* "(<|%3C).*script.*(>|%3E)") { set $susquery 1; }
+if ($args ~* "mosConfig_[a-zA-Z_]{1,21}(=|%3D)") { set $susquery 1; }
+if ($args ~* "base64_encode") { set $susquery 1; }
+if ($args ~* "eval\(") { set $susquery 1; }
+if ($args ~* "file_put_contents") { set $susquery 1; }
+if ($args ~* "(%24&x)") { set $susquery 1; }
+if ($args ~* "(&#x22;|&#x27;|&#x3C;|&#x3E;|&#x5C;|&#x7B;|&#x7C;|%24&x)"){ set $susquery 1; }
+if ($args ~* "(127.0)") { set $susquery 1; }
+if ($args ~* "(globals|encode|localhost|loopback)") { set $susquery 1; }
+if ($args ~* "(insert|concat|union|declare)") { set $susquery 1; }
+if ($args ~* "^loggedout=true"){ set $susquery 0; }
+if ($args ~* "^action=jetpack-sso"){ set $susquery 0; }
+if ($args ~* "^action=rp"){ set $susquery 0; }
+if ($http_cookie ~* "^.*wordpress_logged_in_.*$"){ set $susquery 0; }
+if ($http_referer ~* "^http://maps.googleapis.com(.*)$"){ set $susquery 0; }
+if ($susquery = 1) { return 403; }
+
+#omezeni pristupu do administrace pouze z CR
+location ~ ^/(wp-login\.php) {
+    include country-cz;
+}
+
+#zakladni http hlavicky
+add_header X-Frame-Options SAMEORIGIN;
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Content-Type-Options nosniff;

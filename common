@@ -1,0 +1,14 @@
+location ~ /\.ht {
+    deny  all;
+}
+
+location /favicon.ico {
+    log_not_found       off;
+    auth_basic  off;
+    expires     31d;
+    add_header  Cache-Control  private;
+}
+
+location /robots.txt {
+    log_not_found       off;
+}

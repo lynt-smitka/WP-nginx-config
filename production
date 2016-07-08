@@ -1,0 +1,9 @@
+gzip_types text/plain  text/css application/json application/x-javascript application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+
+gzip_disable "msie6";
+
+location ~* ^.+\.(js|css|jpg|jpeg|gif|png|pdf|zip|rar|svg|ico)$ {
+            expires      31d;
+            access_log              off;
+            add_header    Cache-Control  public;
+}

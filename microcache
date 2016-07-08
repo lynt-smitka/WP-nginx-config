@@ -1,0 +1,19 @@
+set $no_cache "";
+    if ($request_method !~ ^(GET|HEAD)$) {
+        set $no_cache "1";
+    }
+    if ($http_cookie ~* "nocache") {
+                set $no_cache "1";
+    }
+
+    if ($http_cookie ~* "wordpress_logged_in") {
+                set $no_cache "1";
+    }
+
+
+fastcgi_cache microcache;
+fastcgi_cache_key $request_method|$host|$request_uri;
+fastcgi_cache_valid 404 30s;
+fastcgi_cache_valid any 3m;
+fastcgi_no_cache $no_cache;
+fastcgi_cache_bypass $no_cache;

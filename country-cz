@@ -1,0 +1,5 @@
+    if ($geoip_country_code !~ "CZ") {
+        return 403;
+    }
+
+    include        php7.load;

@@ -1,0 +1,5 @@
+index index.php index.html index.htm;
+
+location ~ \.php$ {
+    include        php7.load;
+}
