@@ -3,7 +3,7 @@ if ($http_user_agent ~* "^WPScan"){ return 403; }
 if ($http_user_agent ~* "sqlmap"){ return 403; }
 if ($http_user_agent ~* "dirbuster"){ return 403; }
 if ($http_user_agent ~* "nikto"){ return 403; }
-
+if ($http_user_agent ~* "<script"){ return 403; }
 
 #zakaz dolovani uzivatelskych jmen
 if ($args ~* "author="){ return 404; }
