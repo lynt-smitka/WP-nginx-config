@@ -9,7 +9,7 @@ if ($http_user_agent ~* "<script"){ return 403; }
 if ($args ~* "(?<!_)author="){ return 404; }
 
 #skryti souboru prozrazujicich informace a zakaz xmlrpc - pozor je potreba pro nektere pluginy
-location ~ license\.txt|wp-config-sample\.php|.*readme\.html|.*readme\.txt|.*rss-functions\.php|\.htaccess|wp-config\.php|xmlrpc\.php {
+location ~ license\.txt|wp-config-sample\.php|.*readme\.html|.*readme\.txt|.*rss-functions\.php|\.htaccess|wp-config\.php|xmlrpc\.php|/\.(svn|git) {
     return 404;
 }
 
