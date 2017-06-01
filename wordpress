@@ -5,6 +5,8 @@ if ($http_user_agent ~* "dirbuster"){ return 403; }
 if ($http_user_agent ~* "nikto"){ return 403; }
 if ($http_user_agent ~* "<script"){ return 403; }
 
+try_files $uri $uri/ /index.php?$args; 
+
 #zakaz dolovani uzivatelskych jmen
 if ($args ~* "(?<!_)author="){ return 404; }
 
@@ -29,6 +31,18 @@ location = /robots.txt {
     try_files $uri /index.php?$args;
     log_not_found off;
 }
+
+#blokace prazdnych refereru
+if ($request_uri ~* "(wp-comments-posts|wp-login|admin-ajax)\.php$") {
+  set $ref_block A;
+}
+if ($http_referer = "") {
+  set $ref_block  "${ref_block}B";
+}
+if ($ref_block = AB) {
+  return 403;
+}
+
 
 #blokace podezrelych dotazu
 set $susquery 0;
