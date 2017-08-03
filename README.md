@@ -25,3 +25,13 @@ It is compiled from our production setup.
   - blocking suspicious queries (based on iThemes Security blacklist)
   - adding basic security headers
 
+# Extra configs
+Look at **extras** folder
+- mu-plugins - small mu-plugin for WordPress
+  - enable bcryp hashes for user passwords
+  - filter out sensitive user info from rest API
+  - change status code of failed logins to 401
+- fail2ban rules - block many 404, block failed logins
+- log rotate - log rotate rule for nginx logs
+- php-fpm - basic PHP-FPM pool with open-basedir and disable_functions
+
