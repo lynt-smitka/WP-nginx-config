@@ -1,38 +1,37 @@
-#zakaz user agentu z hackerskych nastroju v rukou amateru
-if ($http_user_agent ~* "^WPScan"){ return 403; }
-if ($http_user_agent ~* "sqlmap"){ return 403; }
-if ($http_user_agent ~* "dirbuster"){ return 403; }
-if ($http_user_agent ~* "nikto"){ return 403; }
-if ($http_user_agent ~* "<script"){ return 403; }
-
 try_files $uri $uri/ /index.php?$args; 
 
-#zakaz dolovani uzivatelskych jmen
+#block common hacking tools used by script kiddies 
+if ($http_user_agent ~* (WPScan|havij|nmap|nessus|w3af|Jorgee|sqlmap|dirbuster|nikto|<script) ) {
+    return 403;
+}
+
+#block basic user names enumerations - for REST API used mu-plugin in extras
 if ($args ~* "(?<!_)author="){ return 404; }
 
-#skryti souboru prozrazujicich informace a zakaz xmlrpc - pozor je potreba pro nektere pluginy
-location ~ license\.txt|wp-config-sample\.php|.*readme\.html|.*readme\.txt|.*rss-functions\.php|\.htaccess|wp-config\.php|xmlrpc\.php|/\.(svn|git) {
+#block files with sensitive info, VCSs and xmlrpc.php (be careful, some plugins need it)
+location ~ license\.txt|wp-config-sample\.php|.*readme\.html|.*readme\.txt|.*rss-functions\.php|\.htaccess|wp-config\.php|xmlrpc\.php|/\.(svn|git|hg|bzr|cvs) {
     return 404;
 }
 
-#zakaz spousteni PHP ze slozky s uploady
+#block direct access to .php files in uploads
 location ~* wp-content/uploads/.*\.php$ {
     deny all;
 }
 
-#povoleni pouze zakladnich HTTP metod
-if ($request_method !~ ^(GET|HEAD|POST)$ )
-{
+#allow only basic HTTP methods
+#REST API usually needs more method - PATCH, PUT, DELETE - you can allow them for REST-API enpoint
+#or you can use override by HTTP_X_HTTP_METHOD_OVERRIDE header or _method GET param
+if ($request_method !~ ^(GET|HEAD|POST)$ ){
     return 403;
 }
 
-#prace s virtualnim robots.txt
+#allow virtual robots.txt
 location = /robots.txt {
     try_files $uri /index.php?$args;
     log_not_found off;
 }
 
-#blokace prazdnych refereru
+#bloc empty referers for login, ajax and comments
 if ($request_uri ~* "(wp-comments-posts|wp-login|admin-ajax)\.php$") {
   set $ref_block A;
 }
@@ -44,7 +43,7 @@ if ($ref_block = AB) {
 }
 
 
-#blokace podezrelych dotazu
+#block susspicious queries (based on iThemes Security blacklist)
 set $susquery 0;
 if ($args ~* "\.\./") { set $susquery 1; }
 if ($args ~* "\.(bash|git|hg|log|svn|swp|cvs)") { set $susquery 1; }
@@ -71,12 +70,12 @@ if ($http_cookie ~* "^.*wordpress_logged_in_.*$"){ set $susquery 0; }
 if ($http_referer ~* "^http://maps.googleapis.com(.*)$"){ set $susquery 0; }
 if ($susquery = 1) { return 403; }
 
-#omezeni pristupu do administrace pouze z CR
-location ~ ^/(wp-login\.php) {
-    include country-cz;
-}
+##allow login page only from Czech Republic
+#location ~ ^/(wp-login\.php) {
+#    include country-cz;
+#}
 
-#zakladni http hlavicky
+#basic HTTP header for security
 add_header X-Frame-Options SAMEORIGIN;
 add_header X-XSS-Protection "1; mode=block";
 add_header X-Content-Type-Options nosniff;
