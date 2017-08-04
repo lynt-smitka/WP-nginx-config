@@ -1,7 +1,7 @@
 # WP-nginx-config
 Basic Nginx + WordPress setup
 
-It is compiled from our production setup.
+It is compiled from our production setup. It is not suitable for Copy&Paste to production use without edits.
 
 # Main features
 - extended configuration via "features includes"
