@@ -13,7 +13,11 @@ defined( 'ABSPATH' ) or die( 'nothing here' );
 add_action('phpmailer_init', 'lynt_customize_mail_settings');
    
 function lynt_customize_mail_settings($phpmailer) {
-    //Set Sender to From address 
+   
+   //Set custom From address (it also mitigates CVE-2017-8295)  
+   //$phpmailer->From = "lynt@example.com";
+   
+   //Set Sender (Return-Path) to From address 
     $phpmailer->Sender = $phpmailer->From;
     
     //Setup your own SMTP server
