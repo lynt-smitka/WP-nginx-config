@@ -1,4 +1,4 @@
-gzip_types text/plain  text/css application/json application/x-javascript application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml image/x-icon;
 
 gzip_disable "msie6";
 
