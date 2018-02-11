@@ -28,9 +28,15 @@ It is compiled from our production setup. It is not suitable for Copy&Paste to p
 # Extra configs
 Look at **extras** folder
 - mu-plugins - small mu-plugin for WordPress
+  - **Enhancer**
   - enable bcryp hashes for user passwords
   - filter out sensitive user info from rest API
   - change status code of failed logins to 401
+  - **Mail Fixer**
+  - fix Return-Path header
+  - set SMTP server
+  - **Team Cookie**
+  - allow to exclude web related users from analytics via special cookie
 - fail2ban rules - block many 404, block failed logins
 - log rotate - log rotate rule for nginx logs
 - php-fpm - basic PHP-FPM pool with open-basedir and disable_functions
