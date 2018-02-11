@@ -31,7 +31,7 @@ location = /robots.txt {
     log_not_found off;
 }
 
-#bloc empty referers for login, ajax and comments
+#block empty referers for login, ajax and comments
 if ($uri ~* "(wp-comments-posts|wp-login|admin-ajax)\.php$") {
   set $ref_block A;
 }
@@ -45,6 +45,10 @@ if ($ref_block = ABC) {
   return 403;
 }
 
+#CVE-2018-6389 - load-scripts.php/load-styles.php - block lonq queries
+if ($request_uri ~* "^/wp-admin/load-(scripts|styles)\.php\?.{1024,}$"){
+    return 403;
+}
 
 #block susspicious queries (based on iThemes Security blacklist)
 set $susquery 0;
