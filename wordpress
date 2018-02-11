@@ -32,7 +32,7 @@ location = /robots.txt {
 }
 
 #bloc empty referers for login, ajax and comments
-if ($request_uri ~* "(wp-comments-posts|wp-login|admin-ajax)\.php$") {
+if ($uri ~* "(wp-comments-posts|wp-login|admin-ajax)\.php$") {
   set $ref_block A;
 }
 if ($request_method = POST ) {
