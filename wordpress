@@ -35,10 +35,13 @@ location = /robots.txt {
 if ($request_uri ~* "(wp-comments-posts|wp-login|admin-ajax)\.php$") {
   set $ref_block A;
 }
-if ($http_referer = "") {
+if ($request_method = POST ) {
   set $ref_block  "${ref_block}B";
 }
-if ($ref_block = AB) {
+if ($http_referer = "") {
+  set $ref_block  "${ref_block}C";
+}
+if ($ref_block = ABC) {
   return 403;
 }
 
