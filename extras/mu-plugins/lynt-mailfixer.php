@@ -16,6 +16,8 @@ function lynt_customize_mail_settings($phpmailer) {
    
    //Set custom From address (it also mitigates CVE-2017-8295)  
    //$phpmailer->From = "lynt@example.com";
+   //Set custom From Name
+   //$phpmailer->FromName = 'Vlada Smitka';
    
    //Set Sender (Return-Path) to From address 
     $phpmailer->Sender = $phpmailer->From;
