@@ -20,7 +20,8 @@ if ( empty($wp_hasher) ) {
 
 
 //Remove sensitive data from REST API
-function lynt_remove_sensitive_data_from_rest( $response ) {
+//User endpoint
+function lynt_remove_sensitive_data_from_rest_user( $response ) {
    
    if(!current_user_can('list_users')){
    
@@ -37,8 +38,24 @@ function lynt_remove_sensitive_data_from_rest( $response ) {
    return $response;
 }
 
-add_filter( 'rest_prepare_user', 'lynt_remove_sensitive_data_from_rest');
+//Comment endpoint
+function lynt_remove_sensitive_data_from_rest_comment( $response ) {
 
+   if(!current_user_can('list_users')){
+
+     //get WP_REST_Response
+     $data = $response->get_data();
+     //unset sensitive fields
+     unset($data['author_avatar_urls']);
+     //set data back
+     $response->set_data($data);
+   }
+   return $response;
+}
+
+
+add_filter( 'rest_prepare_user', 'lynt_remove_sensitive_data_from_rest_user');
+//add_filter( 'rest_prepare_comment', 'lynt_remove_sensitive_data_from_rest_comment');
 
 //return 401 code after failed login, useful for fail2ban
 function lynt_failed_login_401() {
