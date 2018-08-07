@@ -1,0 +1,2 @@
+#renew LE certificates every monday at 6:45
+45 6 * * 1      certbot renew --post-hook "systemctl reload nginx"
