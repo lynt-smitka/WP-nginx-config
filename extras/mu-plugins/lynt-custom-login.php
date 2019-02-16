@@ -27,8 +27,10 @@ function lynt_handler_custom_login() {
 }
 
 function lynt_check_custom_login(){  
-   $nonce = $_COOKIE['wp_lynt_custom_login'];
-  if (!wp_verify_nonce($nonce, 'lynt-custom-login')) {
+   $nonce = isset($_COOKIE['wp_lynt_custom_login'])?$_COOKIE['wp_lynt_custom_login']:'';
+   $action = isset($_GET['action'])?$_GET['action']:'';
+
+  if (!wp_verify_nonce($nonce, 'lynt-custom-login') && $action !== 'logout' ) {
     header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
     exit;
   }
