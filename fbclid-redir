@@ -1,0 +1,3 @@
+if ( $redirect_fbclid ) {
+  return 301 $redirect_fbclid;
+}
