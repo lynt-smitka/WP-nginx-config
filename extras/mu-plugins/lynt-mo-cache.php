@@ -13,7 +13,7 @@ defined('ABSPATH') or die('nothing here');
 //reconstruction fake class
 class Lynt_Translation_Entry extends Translation_Entry
 {
-  public function __set_state($args)
+  public static function __set_state($args)
   {
     $obj                      = new Translation_Entry();
     $obj->is_plural           = $args['is_plural'];
