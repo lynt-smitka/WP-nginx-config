@@ -37,6 +37,8 @@ Look at **extras** folder
   - set SMTP server
   - **Team Cookie**
   - allow to exclude web related users from analytics via special cookie
+  - **MO Cache**
+  - simple file system cache for gettext translations
 - fail2ban rules - block many 404, block failed logins
 - log rotate - log rotate rule for nginx logs
 - php-fpm - basic PHP-FPM pool with open-basedir and disable_functions
