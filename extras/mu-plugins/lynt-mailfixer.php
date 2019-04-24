@@ -2,6 +2,7 @@
 /**
  * Plugin Name: Lynt mail fixer
  * Description: Lynt set up correct mail settings
+ * Plugin URI:  https://github.com/lynt-smitka/WP-nginx-config/blob/master/extras/mu-plugins/lynt-mailfixer.php
  * Author:      Vladimir Smitka
  * Author URI:  https://lynt.cz/
  * License:     GNU General Public License v3 or later

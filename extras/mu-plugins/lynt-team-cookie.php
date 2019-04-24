@@ -2,6 +2,7 @@
 /**
  * Plugin Name: Lynt Team Cookie
  * Description: Set cookie lynt_team after open the administration - useful for excluding users from analytics
+ * Plugin URI:  https://github.com/lynt-smitka/WP-nginx-config/blob/master/extras/mu-plugins/lynt-team-cookie.php
  * Author:      Vladimir Smitka
  * Author URI:  https://lynt.cz/
  * License:     GNU General Public License v3 or later

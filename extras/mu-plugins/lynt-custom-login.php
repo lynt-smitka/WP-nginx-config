@@ -2,6 +2,7 @@
 /**
  * Plugin Name: Lynt custom login
  * Description: Allow wp-login.php only with cookie obtained from custom URL.
+ * Plugin URI:  https://github.com/lynt-smitka/WP-nginx-config/blob/master/extras/mu-plugins/lynt-custom-login.php
  * Author:      Vladimir Smitka
  * Author URI:  https://lynt.cz/
  * License:     GNU General Public License v3 or later

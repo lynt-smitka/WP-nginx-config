@@ -2,6 +2,7 @@
 /**
  * Plugin Name: Lynt enhancer
  * Description: Lynt security customizations
+ * Plugin URI:  https://github.com/lynt-smitka/WP-nginx-config/blob/master/extras/mu-plugins/lynt-enhancer.php
  * Author:      Vladimir Smitka
  * Author URI:  https://lynt.cz/
  * License:     GNU General Public License v3 or later
