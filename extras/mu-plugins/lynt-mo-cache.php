@@ -50,7 +50,6 @@ function lynt_load_textdomain($retval, $domain, $mofile)
   }
   
   $mtime = filemtime($mofile);
-  $file  = $mofile;
   
   $mo = new MO();
   
