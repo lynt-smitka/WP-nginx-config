@@ -15,17 +15,7 @@ class Lynt_Translation_Entry extends Translation_Entry
 {
   public static function __set_state($args)
   {
-    $obj                      = new Translation_Entry();
-    $obj->is_plural           = $args['is_plural'];
-    $obj->context             = $args['context'];
-    $obj->singular            = $args['singular'];
-    $obj->plural              = $args['plural'];
-    $obj->translations        = $args['translations'];
-    $obj->translator_comments = $args['translator_comments'];
-    $obj->extracted_comments  = $args['extracted_comments'];
-    $obj->references          = $args['references'];
-    $obj->flags               = $args['flags'];
-    return $obj;
+    return new Translation_Entry($args);
   }
 }
 
