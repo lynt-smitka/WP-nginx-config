@@ -56,7 +56,7 @@ function lynt_remove_sensitive_data_from_rest_comment( $response ) {
 
 
 add_filter( 'rest_prepare_user', 'lynt_remove_sensitive_data_from_rest_user');
-//add_filter( 'rest_prepare_comment', 'lynt_remove_sensitive_data_from_rest_comment');
+add_filter( 'rest_prepare_comment', 'lynt_remove_sensitive_data_from_rest_comment');
 
 //return 401 code after failed login, useful for fail2ban
 function lynt_failed_login_401() {
