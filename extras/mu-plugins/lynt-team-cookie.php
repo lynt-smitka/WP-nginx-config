@@ -13,4 +13,4 @@ defined( 'ABSPATH' ) or die( 'nothing here' );
 function lynt_team_cookie() {
   setcookie('lynt_team', 1, time() + (86400 * 365 * 3), "/");
 }
-add_action('admin_init', 'lynt_team_cookie');
+add_action('admin_menu', 'lynt_team_cookie');
