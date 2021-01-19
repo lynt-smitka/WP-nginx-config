@@ -21,17 +21,18 @@ function lynt_handler_custom_login() {
   if($path === LYNT_CUSTOM_LOGIN_URL) {
 
     $nonce = wp_create_nonce('lynt-custom-login');
-    setcookie('wp_lynt_custom_login', $nonce); 
+    setcookie('wp_lynt_custom_login', $nonce);
     wp_redirect(implode('?', array_filter(array('/wp-login.php',$query))));
     exit;
   }
 }
 
-function lynt_check_custom_login(){  
+function lynt_check_custom_login(){
    $nonce = isset($_COOKIE['wp_lynt_custom_login'])?$_COOKIE['wp_lynt_custom_login']:'';
    $action = isset($_GET['action'])?$_GET['action']:'';
+   $loggedout = isset($_GET['loggedout'])?$_GET['loggedout']:'';
 
-  if (!wp_verify_nonce($nonce, 'lynt-custom-login') && $action !== 'logout' ) {
+  if (!wp_verify_nonce($nonce, 'lynt-custom-login') && $action !== 'logout' && $action !== 'confirm_admin_email' && $action !== 'rp' && $loggedout !== 'true') {
     header($_SERVER['SERVER_PROTOCOL'].' 404 Not Found');
     exit;
   }
@@ -39,3 +40,4 @@ function lynt_check_custom_login(){
 
 add_action('parse_request', 'lynt_handler_custom_login');
 add_action('login_init', 'lynt_check_custom_login');
+
