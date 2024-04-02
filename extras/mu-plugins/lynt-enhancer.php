@@ -20,8 +20,8 @@ if ( empty($wp_hasher) ) {
 }
 
 
-//Remove sensitive data from REST API
-//User endpoint
+// Remove sensitive data from REST API
+// User endpoint
 function lynt_remove_sensitive_data_from_rest_user( $response ) {
    
    if(!current_user_can('list_users')){
@@ -39,7 +39,7 @@ function lynt_remove_sensitive_data_from_rest_user( $response ) {
    return $response;
 }
 
-//Comment endpoint
+// Comment endpoint
 function lynt_remove_sensitive_data_from_rest_comment( $response ) {
 
    if(!current_user_can('list_users')){
@@ -58,8 +58,31 @@ function lynt_remove_sensitive_data_from_rest_comment( $response ) {
 add_filter( 'rest_prepare_user', 'lynt_remove_sensitive_data_from_rest_user');
 add_filter( 'rest_prepare_comment', 'lynt_remove_sensitive_data_from_rest_comment');
 
-//return 401 code after failed login, useful for fail2ban
+// Return 401 code after failed login, useful for fail2ban
 function lynt_failed_login_401() {
   status_header( 401 );
 }
 add_action( 'wp_login_failed', 'lynt_failed_login_401' );
+
+
+// Beta: Logs users out if they log in from a new IP - protection against leaking auth cookies.
+// With this approach, there will be only one user session bound to an IP address.
+function new_ip_invalidate_sessions() {
+    if (is_user_logged_in()) {
+        $user_id = get_current_user_id();
+        $current_ip = $_SERVER['REMOTE_ADDR'];
+        
+        $session_tokens = get_user_meta($user_id, 'session_tokens', true);
+        $sessions = maybe_unserialize($session_tokens);
+        
+        if (is_array($sessions)) {
+            foreach ($sessions as $token => $session) {
+                if ($session['ip'] !== $current_ip) {
+                    WP_Session_Tokens::get_instance($user_id)->destroy_all();
+                    break;
+                }
+            }
+        }
+    }
+}
+//add_action('init', 'new_ip_invalidate_sessions');
